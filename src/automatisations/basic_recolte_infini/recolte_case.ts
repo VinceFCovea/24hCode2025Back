@@ -23,9 +23,9 @@ if (!BASE_URL || !ID_EQUIPE || !ID_VILLAGEOIS || !BEARER_TOKEN) {
 async function recolte_case(id_villageois: string, ressources:string)
 {
     try {
-        console.log("recolte")
+        //console.log("recolte")
         await demanderAction('RECOLTER', ressources, id_villageois);
-        console.log('Action demandée avec succès.');
+        //console.log('Action demandée avec succès.');
     } catch (error) {
         console.error('Erreur lors de l\'appel à l\'API:', error);
     }
@@ -38,7 +38,7 @@ function getRessourcesTerrain(monde : Monde) : RessourceWithQuantite[] {
 }
 
 function getListNomRessources(ressources : RessourceWithQuantite[]) : String[] {
-    console.log(ressources[0].ressource);
+    //console.log(ressources[0].ressource);
     return ressources.map(rp => rp.ressource.nom);
 }
 
