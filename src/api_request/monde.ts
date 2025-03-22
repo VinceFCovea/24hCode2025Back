@@ -14,5 +14,5 @@ export const getCarte = async (xRange: string, yRange: string): Promise<Monde> =
             Authorization: `Bearer ${BEARER_TOKEN}`,
         },
     });
-    return response.data;
+    return response.data[0];//on recup seulement le premier monde
 };

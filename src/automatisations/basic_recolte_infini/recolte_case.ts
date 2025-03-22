@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import { demanderAction } from '../../api_request/villageois';
 import * as path from "node:path";
-import {Ressource} from "../../models/Ressource";
 import {Monde, RessourceWithQuantite} from "../../models/Monde";
 
 
@@ -32,12 +31,15 @@ async function recolte_case(id_villageois: string, ressources:string)
     }
 }
 
-export { recolte_case };
+
 
 function getRessourcesTerrain(monde : Monde) : RessourceWithQuantite[] {
     return monde.ressources;
 }
 
 function getListNomRessources(ressources : RessourceWithQuantite[]) : String[] {
+    console.log(ressources[0].ressource);
     return ressources.map(rp => rp.ressource.nom);
 }
+
+export { recolte_case, getRessourcesTerrain, getListNomRessources };
