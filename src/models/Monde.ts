@@ -38,4 +38,25 @@ export interface Monde {
     ressources: RessourceWithQuantite[];
 }
 
+export interface BatimentDetail {
+    id: string;
+    description: string;
+    type: string;
+    tempsConstruction: number;
+    estUneMerveille: boolean;
+    constructibleSur: string[];
+    coutParTour: any[];
+    coutConstruction: any[];
+    bonusConstruction: any[];
+    bonus: any[];
+    supplement: any[];
+}
+
+export interface BatimentConstruit {
+    progression: number;
+    identifiant: string;
+    proprietaire: Proprietaire;
+    detailBatiment: BatimentDetail;
+}
+
 

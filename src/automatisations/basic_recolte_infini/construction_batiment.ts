@@ -1,5 +1,5 @@
 import {demanderAction} from "../../api_request/villageois";
-import {Terrain} from "../../models/Monde";
+import {Monde, Terrain} from "../../models/Monde";
 import Batiment from "../../models/Batiments";
 
 const BASE_URL="http://51.210.117.22:8080"
@@ -29,7 +29,10 @@ function can_build(terrain : Terrain, batiment : Batiment): boolean{
     const terrain_nom = terrain.nom;
     const batiment_terrain : String[] = batiment.constructibleSur;
     return batiment_terrain.includes(terrain_nom);
-
 }
 
-export {new_bat, continue_contruire_bat, can_build};
+function get_construction_status(monde: Monde){
+    return monde.batiment_construit.progression;
+}
+
+export {new_bat, continue_contruire_bat, can_build, get_construction_status};
