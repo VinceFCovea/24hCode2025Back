@@ -1,0 +1,23 @@
+{
+  "name": "24hcode2025back",
+  "version": "1.0.0",
+  "description": "Backend 24h du code 2025 - civlike",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VinceFCovea/24hCode2025Back.git"
+  },
+  "keywords": [
+    "civ",
+    "node"
+  ],
+  "author": "VincentFroger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VinceFCovea/24hCode2025Back/issues"
+  },
+  "homepage": "https://github.com/VinceFCovea/24hCode2025Back#readme"
+}
