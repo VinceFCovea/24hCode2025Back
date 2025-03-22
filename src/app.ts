@@ -7,7 +7,10 @@ import {
 import {getVillageoisDetails, getVillageoisList} from "./api_request/villageois";
 import {Villageois} from "./models/Villageois";
 import {getCarte} from "./api_request/monde";
-import {continue_contruire_bat} from "./automatisations/basic_recolte_infini/construction_batiment";
+import {
+    continue_contruire_bat,
+    get_construction_status
+} from "./automatisations/basic_recolte_infini/construction_batiment";
 const app = express();
 
 
@@ -41,10 +44,11 @@ getVillageoisList().then(villageois_list => {
                 getVillageoisDetails(id_villageois).then(villageois_info => {
                     //get les ressources
                     getCarte(`${villageois_info.positionX},${villageois_info.positionX}`, `${villageois_info.positionY},${villageois_info.positionY}`).then(monde => {
-                        if (id_villageois === "c71928dd-5c72-4c49-8c34-18f7301507b9" || "") {
+                        if (id_villageois === "" || "") {
                             let list_terrain = getTerrain(monde);
                             console.log(list_terrain);
-                            continue_contruire_bat(id_villageois, 'EOLIENNE');
+                            continue_contruire_bat(id_villageois, 'MOULIN');
+                            console.log("Statut:", get_construction_status(monde))
                         }else {
                             //console.log(monde);
                             let ressources = getRessourcesTerrain(monde);
