@@ -1,0 +1,106 @@
+openapi: 3.0.0
+info:
+  title: Villageois Automation API
+  description: API pour automatiser les actions des villageois dans un jeu.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Serveur de développement local
+
+paths:
+  /villageois/move:
+    post:
+      summary: Déplacer un villageois
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID du villageois
+                  example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
+                dest_x:
+                  type: number
+                  description: Coordonnée X de la destination
+                  example: 10
+                dest_y:
+                  type: number
+                  description: Coordonnée Y de la destination
+                  example: 15
+      responses:
+        '200':
+          description: Villageois déplacé avec succès
+        '404':
+          description: Villageois non trouvé
+
+  /construction/build:
+    post:
+      summary: Construire un bâtiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID du villageois
+                  example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
+                batiment:
+                  type: string
+                  description: Type de bâtiment à construire
+                  example: "MINE_DE_CHARBON"
+      responses:
+        '200':
+          description: Construction lancée avec succès
+        '404':
+          description: Villageois non trouvé
+
+  /recolte:
+    post:
+      summary: Récolter une ressource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID du villageois
+                  example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
+                ressource:
+                  type: string
+                  description: Ressource à récolter
+                  example: "BOIS"
+      responses:
+        '200':
+          description: Récolte lancée avec succès
+        '404':
+          description: Villageois non trouvé
+
+  /pause:
+    post:
+      summary: Mettre en pause un villageois
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID du villageois
+                  example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
+      responses:
+        '200':
+          description: Villageois mis en pause avec succès
+        '404':
+          description: Villageois non trouvé
