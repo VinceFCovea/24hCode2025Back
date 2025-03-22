@@ -18,9 +18,9 @@ const BEARER_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2VG5aX1o4
 async function recolte_case(id_villageois: string, ressources:string)
 {
     try {
-        console.log("recolte")
+        //console.log("recolte")
         await demanderAction('RECOLTER', ressources, id_villageois);
-        console.log('Action demandée avec succès.');
+        //console.log('Action demandée avec succès.');
     } catch (error) {
         console.error('Erreur lors de l\'appel à l\'API:', error);
     }
@@ -37,7 +37,7 @@ function getTerrain(monde : Monde) : Terrain {
 }
 
 function getListNomRessources(ressources : RessourceWithQuantite[]) : String[] {
-    console.log(ressources[0].ressource);
+    //console.log(ressources[0].ressource);
     return ressources.map(rp => rp.ressource.nom);
 }
 

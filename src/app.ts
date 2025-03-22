@@ -14,16 +14,16 @@ app.use(express.json());
 
 const tableauRessources = {
     "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": [
-        "PIERRE"
-    ],
-    "0d53b017-10d0-48a2-afe2-e5a292648e56" : [
         "BOIS"
     ],
+    "0d53b017-10d0-48a2-afe2-e5a292648e56" : [
+        "FER"
+    ],
     "61acd05a-a8e2-45b9-a757-5d4138c92c63": [
-        "FER",
+        "BOIS",
     ],
     "c71928dd-5c72-4c49-8c34-18f7301507b9" : [
-        "CHARBON"
+        "BOIS"
     ],
     "1c5040c4-c3f1-408e-a0e6-eec4409e5991" : [
         "FER",
@@ -36,7 +36,9 @@ getVillageoisList().then(villageois_list => {
     setInterval(function () {
         for (let i = 0; i < villageois_list.length; i++) {
             let id_villageois = villageois_list[i].idVillageois;
+            if (id_villageois === "" || "") {
 
+            }else {
                 // on recup la case du villageois
                 getVillageoisDetails(id_villageois).then(villageois_info => {
                     //get les ressources
