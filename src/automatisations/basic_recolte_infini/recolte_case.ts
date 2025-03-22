@@ -18,7 +18,7 @@ const BEARER_TOKEN="eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI2VG5aX1o4
 async function recolte_case(id_villageois: string, ressources:string)
 {
     try {
-        console.log("villagois", id_villageois, " recolte du ", ressources);
+
         //console.log("recolte")
         await demanderAction('RECOLTER', ressources, id_villageois);
         //console.log('Action demandée avec succès.');

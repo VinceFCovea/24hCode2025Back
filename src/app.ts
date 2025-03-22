@@ -24,7 +24,7 @@ const tableauRessources = {
         "BOIS",
     ],
     "c71928dd-5c72-4c49-8c34-18f7301507b9" : [
-        "BOIS"
+        "NOURRITURE"
     ],
     "1c5040c4-c3f1-408e-a0e6-eec4409e5991" : [
         "FER",
@@ -42,9 +42,9 @@ getVillageoisList().then(villageois_list => {
                     //get les ressources
                     getCarte(`${villageois_info.positionX},${villageois_info.positionX}`, `${villageois_info.positionY},${villageois_info.positionY}`).then(monde => {
                         if (id_villageois === "c71928dd-5c72-4c49-8c34-18f7301507b9" || "") {
-                            let list_terrain = getTerrain(monde);
-                            console.log(list_terrain);
-                            continue_contruire_bat(id_villageois, 'EOLIENNE');
+                            // let list_terrain = getTerrain(monde);
+                            // console.log(list_terrain);
+                            // continue_contruire_bat(id_villageois, 'CABANE_DE_BUCHERON').catch(console.error);
                         }else {
                             //console.log(monde);
                             let ressources = getRessourcesTerrain(monde);
@@ -57,11 +57,14 @@ getVillageoisList().then(villageois_list => {
                             if (list_ressources_presente_nom.includes(ressources_demande[0])) {
                                 //console.log("demandé trouvé", id_villageois, tableauRessources[id_villageois][0]);
                                 recolte_case(id_villageois, tableauRessources[id_villageois][0]).then(r => {
+                                    console.log("villagois", id_villageois, `(${villageois_info.positionX},${villageois_info.positionX}) recolte du `, tableauRessources[id_villageois][0]);
                                 })
                             } else {
                                 //console.log("défault", id_villageois, ressources[0].ressource.nom);
                                 recolte_case(id_villageois, ressources[0].ressource.nom).then(r => {
+                                    console.log("villagois", id_villageois, `(${villageois_info.positionX},${villageois_info.positionX}) recolte du `, ressources[0].ressource.nom);
                                 })
+
                             }
                             //console.log("-------------------");
                         }
