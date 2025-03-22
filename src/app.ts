@@ -2,9 +2,15 @@ import express from 'express';
 
 import {getVillageoisDetails, getVillageoisList} from "./api_request/villageois";
 import {getCarte} from "./api_request/monde";
-import {continue_contruire_bat, get_construction_status} from "./automatisations/construction_batiment";
+import {
+    can_build,
+    continue_contruire_bat,
+    get_construction_status,
+    new_bat
+} from "./automatisations/construction_batiment";
 import {getListNomRessources, getRessourcesTerrain, recolte_case} from "./automatisations/recolte_case";
 import {action_move} from "./automatisations/move";
+import {getBatiments} from "./api_request/batiments";
 
 const app = express();
 app.use(express.json());
@@ -39,7 +45,7 @@ let tableauConfig = {
     "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "recolte", ressource: "FER" },
     "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "recolte", ressource: "BOIS" },
     "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "recolte", ressource: "NOURRITURE" },
-    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "construction", batiment: "EOLIENNE", ressource: "NOURRITURE", dest_x: 10, dest_y: 15,},
+    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "set-construction", batiment: "MINE_DE_CHARBON", ressource: "NOURRITURE", dest_x: 10, dest_y: 15,},
 };
 
 getVillageoisList().then(villageois_list => {
@@ -87,6 +93,11 @@ getVillageoisList().then(villageois_list => {
                         }else {
                             action_move(id_villageois, direction);
                         }
+                    }else if (config.action === "set-construction"){
+                        new_bat(id_villageois, config.batiment).then(r => {
+                            console.log("villageois", id_villageois, " construit ", config.batiment);
+                            config.action = "construction";
+                        });
                     }
                 });
             });
