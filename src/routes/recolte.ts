@@ -1,15 +1,15 @@
 import express from 'express';
 import { recolte_case } from '../automatisations/recolte_case';
-import {tableauConfig} from "../app";
+import {adjustname, tableauConfig} from "../app";
 
 const router = express.Router();
 
 router.post('/recolte', (req, res) => {
     const { id, ressource } = req.body;
     // Mettre à jour uniquement les propriétés nécessaires
-    if (tableauConfig[id]) {
-        tableauConfig[id].action = "recolte";
-        tableauConfig[id].ressource = ressource;
+    if (tableauConfig[adjustname[id]]) {
+        tableauConfig[adjustname[id]].action = "recolte";
+        tableauConfig[adjustname[id]].ressource = ressource;
         recolte_case(id, ressource);
         res.send(`Villageois ${id} is collecting ${ressource}`);
     } else {
@@ -20,8 +20,8 @@ router.post('/recolte', (req, res) => {
 router.post('/pause', (req, res) => {
     const { id } = req.body;
     // Mettre à jour uniquement les propriétés nécessaires
-    if (tableauConfig[id]) {
-        tableauConfig[id].action = "pause";
+    if (tableauConfig[adjustname[id]]) {
+        tableauConfig[adjustname[id]].action = "pause";
         res.send(`Villageois ${id} is paused`);
     } else {
         res.status(404).send(`Villageois ${id} not found`);
