@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: http://localhost:3000/api
+  - url: http://10.110.5.153:3000/api
     description: Serveur de développement local
 
 paths:
@@ -36,7 +36,35 @@ paths:
           description: Villageois déplacé avec succès
         '404':
           description: Villageois non trouvé
-
+  /villageois/movetoressource:
+    post:
+      summary: Déplacer un villageois vers la ressource la plus proche
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_villageois:
+                  type: string
+                  description: ID du villageois
+                  example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
+                x:
+                  type: number
+                  description: x villageois
+                  example: 10
+                y:
+                  type: number
+                  description: y villageois
+                  example: 15
+                ressourceName:
+                  type: string
+                  description: ressource name
+                  example: "FER"
+      responses:
+        '200':
+          description: Villageois se déplace
   /construction/build:
     post:
       summary: Construire un bâtiment

@@ -16,3 +16,12 @@ export const getCarte = async (xRange: string, yRange: string): Promise<Monde> =
     });
     return response.data[0];//on recup seulement le premier monde
 };
+
+export const getCartes = async (xRange: string, yRange: string): Promise<Monde[]> => {
+    const response = await axios.get(`${BASE_URL}/monde/map?x_range=${xRange}&y_range=${yRange}`, {
+        headers: {
+            Authorization: `Bearer ${BEARER_TOKEN}`,
+        },
+    });
+    return response.data;
+};

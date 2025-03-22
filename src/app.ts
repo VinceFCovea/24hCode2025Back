@@ -1,6 +1,7 @@
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import {getVillageoisDetails, getVillageoisList} from "./api_request/villageois";
 import {getCarte} from "./api_request/monde";
@@ -21,6 +22,11 @@ import recolteRoutes from './routes/recolte';
 const app = express();
 app.use(express.json());
 
+app.use(cors({
+    origin: '*', // Autoriser toutes les origines, ou spécifiez une origine particulière
+    methods: 'GET,POST,PUT,DELETE,OPTIONS', // Autoriser certains types de requêtes
+    allowedHeaders: 'Content-Type,Authorization', // Autoriser certains en-têtes
+}));
 
 /*
 Actions:
@@ -38,11 +44,11 @@ interface TableauConfig {
 }
 
 export let tableauConfig : TableauConfig = {
-    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "construction", batiment: "BIBLIOTHEQUE", ressource: "NOURRITURE", dest_x: 26, dest_y: 30,},
-    "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "pause", batiment: "", ressource: "BOIS", dest_x: 27, dest_y: 30,},
-    "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "move", batiment: "", ressource: "BOIS", dest_x: 28, dest_y: 30,},
-    "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "move", batiment: "", ressource: "BOIS", dest_x: 24, dest_y: 30,},
-    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "move", batiment: "", ressource: "BOIS", dest_x: 23, dest_y: 30,},
+    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "recolte", batiment: "BIBLIOTHEQUE", ressource: "FER", dest_x: 24, dest_y: 30,},//
+    "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "move", batiment: "", ressource: "NOURRITURE", dest_x: 26, dest_y: 31,},
+    "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "recolte", batiment: "", ressource: "PIERRE", dest_x: 30, dest_y: 26,},//
+    "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "move", batiment: "", ressource: "FER", dest_x: 19, dest_y: 27,},
+    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "move", batiment: "", ressource: "BOIS", dest_x: 30, dest_y: 32,},
 };
 
 
@@ -54,7 +60,7 @@ app.use('/api/recolte', recolteRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, "10.110.5.153", () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`Swagger documentation available at http://localhost:${PORT}/api-docs`);
     getVillageoisList().then(villageois_list => {
