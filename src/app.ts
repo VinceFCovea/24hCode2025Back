@@ -1,12 +1,13 @@
 import express from 'express';
 import {
     getListNomRessources,
-    getRessourcesTerrain,
+    getRessourcesTerrain, getTerrain,
     recolte_case
 } from "./automatisations/basic_recolte_infini/recolte_case";
 import {getVillageoisDetails, getVillageoisList} from "./api_request/villageois";
 import {Villageois} from "./models/Villageois";
 import {getCarte} from "./api_request/monde";
+import {continue_contruire_bat} from "./automatisations/basic_recolte_infini/construction_batiment";
 const app = express();
 
 
@@ -36,39 +37,38 @@ getVillageoisList().then(villageois_list => {
     setInterval(function () {
         for (let i = 0; i < villageois_list.length; i++) {
             let id_villageois = villageois_list[i].idVillageois;
-            if (id_villageois === "c71928dd-5c72-4c49-8c34-18f7301507b9" || "") {
-                let list_terrain = getTerrain(monde);
-                console.log(list_terrain);
-                continue_contruire_bat(id_villageois, 'EOLIENNE')
-            }else {
                 // on recup la case du villageois
                 getVillageoisDetails(id_villageois).then(villageois_info => {
                     //get les ressources
                     getCarte(`${villageois_info.positionX},${villageois_info.positionX}`, `${villageois_info.positionY},${villageois_info.positionY}`).then(monde => {
-                        //console.log(monde);
-                        let ressources = getRessourcesTerrain(monde);
-                        //console.log("Les ressources", ressources);
-                        //console.log("liste des ressources présentes", getListNomRessources(ressources));
-                        let list_ressources_presente_nom = getListNomRessources(ressources);
-                        let ressources_demande = tableauRessources[id_villageois];
-                        //console.log("-------------------");
-                        //console.log("demandé : ",ressources_demande);
-                        if (list_ressources_presente_nom.includes(ressources_demande[0])) {
-                            //console.log("demandé trouvé", id_villageois, tableauRessources[id_villageois][0]);
-                            recolte_case(id_villageois, tableauRessources[id_villageois][0]).then(r => {
-                            })
-                        } else {
-                            //console.log("défault", id_villageois, ressources[0].ressource.nom);
-                            recolte_case(id_villageois, ressources[0].ressource.nom).then(r => {})
+                        if (id_villageois === "c71928dd-5c72-4c49-8c34-18f7301507b9" || "") {
+                            let list_terrain = getTerrain(monde);
+                            console.log(list_terrain);
+                            continue_contruire_bat(id_villageois, 'EOLIENNE');
+                        }else {
+                            //console.log(monde);
+                            let ressources = getRessourcesTerrain(monde);
+                            //console.log("Les ressources", ressources);
+                            //console.log("liste des ressources présentes", getListNomRessources(ressources));
+                            let list_ressources_presente_nom = getListNomRessources(ressources);
+                            let ressources_demande = tableauRessources[id_villageois];
+                            //console.log("-------------------");
+                            //console.log("demandé : ",ressources_demande);
+                            if (list_ressources_presente_nom.includes(ressources_demande[0])) {
+                                //console.log("demandé trouvé", id_villageois, tableauRessources[id_villageois][0]);
+                                recolte_case(id_villageois, tableauRessources[id_villageois][0]).then(r => {
+                                })
+                            } else {
+                                //console.log("défault", id_villageois, ressources[0].ressource.nom);
+                                recolte_case(id_villageois, ressources[0].ressource.nom).then(r => {
+                                })
+                            }
+                            //console.log("-------------------");
                         }
-                        //console.log("-------------------");
                     })
                 })
             }
-        }
         0}, 12600)
-
-
 })
 
 
