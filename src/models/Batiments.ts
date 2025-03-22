@@ -1,5 +1,10 @@
-export interface Batiment {
+interface Batiment {
     id: string;
-    nom: string;
     description: string;
+    type: string;
+    tempsConstruction: number;
+    estUneMerveille: boolean;
+    constructibleSur: string[];
 }
+
+export default Batiment;
