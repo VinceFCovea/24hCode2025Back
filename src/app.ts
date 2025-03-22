@@ -36,8 +36,10 @@ getVillageoisList().then(villageois_list => {
     setInterval(function () {
         for (let i = 0; i < villageois_list.length; i++) {
             let id_villageois = villageois_list[i].idVillageois;
-            if (id_villageois === "" || "") {
-
+            if (id_villageois === "c71928dd-5c72-4c49-8c34-18f7301507b9" || "") {
+                let list_terrain = getTerrain(monde);
+                console.log(list_terrain);
+                continue_contruire_bat(id_villageois, 'EOLIENNE')
             }else {
                 // on recup la case du villageois
                 getVillageoisDetails(id_villageois).then(villageois_info => {
