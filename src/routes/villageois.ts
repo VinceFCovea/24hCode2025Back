@@ -30,4 +30,15 @@ router.post('/movetoressource', async (req, res) => {
     res.send(ressourceproche);
 });
 
+
+router.get('/action/:id', (req, res) => {
+    const id = req.params.id;
+    const adjustedId = adjustname[id];
+    if (adjustedId && tableauConfig[adjustedId]) {
+        res.json(tableauConfig[adjustedId]);
+    } else {
+        res.status(404).send(`Action for ID ${id} not found`);
+    }
+});
+
 export default router;
