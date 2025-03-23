@@ -166,3 +166,45 @@ paths:
           description: Villageois mis en pause avec succès
         '404':
           description: Villageois non trouvé
+
+  /villageois/action/{id}:
+    get:
+      summary: Obtenir l'action en cours pour un villageois
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID du villageois (les 2 premiers caractères)
+          example: "17"
+      responses:
+        '200':
+          description: Action en cours récupérée avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action:
+                    type: string
+                    description: Action en cours
+                    example: "recolte"
+                  ressource:
+                    type: string
+                    description: Ressource associée à l'action
+                    example: "CHARBON"
+                  batiment:
+                    type: string
+                    description: Bâtiment associé à l'action
+                    example: "BIBLIOTHEQUE"
+                  dest_x:
+                    type: number
+                    description: Coordonnée X de la destination
+                    example: 24
+                  dest_y:
+                    type: number
+                    description: Coordonnée Y de la destination
+                    example: 30
+        '404':
+          description: Action pour l'ID non trouvée
