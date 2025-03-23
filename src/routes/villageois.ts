@@ -26,6 +26,7 @@ router.post('/movetoressource', async (req, res) => {
     const ressource = req.body.ressourceName;
     const ressourceproche: Position = await getRessourceLaPlusProche(x, y, ressource);
     movetodest(id_villageois,ressourceproche.x, ressourceproche.y);
+    tableauConfig[adjustname[id_villageois]].next_action = "recolte";
     res.send(ressourceproche);
 });
 
