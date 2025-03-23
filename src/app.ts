@@ -48,15 +48,13 @@ interface TableauConfig {
 export let adjustname = {
     "17" : "17e9cdb2-6bb1-484e-ad06-5f49c47e2034",
     "0d" : "0d53b017-10d0-48a2-afe2-e5a292648e56",
-    "61" : "61acd05a-a8e2-45b9-a757-5d4138c92c63",
     "c7" : "c71928dd-5c72-4c49-8c34-18f7301507b9",
     "1c" : "1c5040c4-c3f1-408e-a0e6-eec4409e5991"
 }
 
 export let tableauConfig : TableauConfig = {
-    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "recolte", batiment: "BIBLIOTHEQUE", ressource: "FER", dest_x: 24, dest_y: 30,},
+    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "recolte", batiment: "BIBLIOTHEQUE", ressource: "CHARBON", dest_x: 24, dest_y: 30,},
     "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "recolte", batiment: "", ressource: "CHARBON", dest_x: 26, dest_y: 31, next_action: "recolte"},
-    "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "recolte", batiment: "", ressource: "PIERRE", dest_x: 30, dest_y: 26,},
     "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "recolte", batiment: "", ressource: "FER", dest_x: 19, dest_y: 27, next_action: "construction"},
     "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "recolte", batiment: "", ressource: "BOIS", dest_x: 30, dest_y: 32, next_action: "recolte"},
 };

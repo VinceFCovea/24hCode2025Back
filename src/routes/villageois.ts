@@ -1,6 +1,8 @@
 import express from 'express';
 import {adjustname, tableauConfig} from "../app";
 import {getRessourceLaPlusProche, Position} from "../automatisations/maps_ressources";
+import {getVillageoisDetails} from "../api_request/villageois";
+import {Villageois} from "../models/Villageois";
 
 const router = express.Router();
 
@@ -20,13 +22,26 @@ router.post('/move', (req, res) => {
 
 
 router.post('/movetoressource', async (req, res) => {
-    const id_villageois = req.body.id_villageois;
-    const x = req.body.x;
-    const y = req.body.y;
-    const ressource = req.body.ressourceName;
-    const ressourceproche: Position = await getRessourceLaPlusProche(x, y, ressource);
-    movetodest(id_villageois,ressourceproche.x, ressourceproche.y);
-    res.send(ressourceproche);
+        const id_villageois = req.body.id_villageois;
+        const villageois_info: Villageois = await getVillageoisDetails(id_villageois);
+        const x = villageois_info.positionX;
+        const y = villageois_info.positionY;
+        const ressource = req.body.ressourceName;
+        const ressourceproche = await getRessourceLaPlusProche(x, y, ressource);
+        movetodest(id_villageois, ressourceproche.x, ressourceproche.y);
+        tableauConfig[adjustname[id_villageois]].next_action = "recolte";
+        res.send(ressourceproche);
+});
+
+
+router.get('/action/:id', (req, res) => {
+    const id = req.params.id;
+    const adjustedId = adjustname[id];
+    if (adjustedId && tableauConfig[adjustedId]) {
+        res.json(tableauConfig[adjustedId]);
+    } else {
+        res.status(404).send(`Action for ID ${id} not found`);
+    }
 });
 
 
