@@ -38,7 +38,9 @@ interface ActionConfig {
     batiment?: string;
     dest_x?: number;
     dest_y?: number;
+    next_action?: "recolte" | "construction" | "set-construction" | "pause" | "move"; // Nouvelle propriété
 }
+
 interface TableauConfig {
     [id: string]: ActionConfig;
 }
@@ -52,11 +54,11 @@ export let adjustname = {
 }
 
 export let tableauConfig : TableauConfig = {
-    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "recolte", batiment: "BIBLIOTHEQUE", ressource: "FER", dest_x: 24, dest_y: 30,},//
-    "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "move", batiment: "", ressource: "NOURRITURE", dest_x: 26, dest_y: 31,},
-    "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "recolte", batiment: "", ressource: "PIERRE", dest_x: 30, dest_y: 26,},//
-    "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "move", batiment: "", ressource: "FER", dest_x: 19, dest_y: 27,},
-    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "move", batiment: "", ressource: "BOIS", dest_x: 30, dest_y: 32,},
+    "17e9cdb2-6bb1-484e-ad06-5f49c47e2034": { action: "recolte", batiment: "BIBLIOTHEQUE", ressource: "FER", dest_x: 24, dest_y: 30,},
+    "0d53b017-10d0-48a2-afe2-e5a292648e56": { action: "recolte", batiment: "", ressource: "NOURRITURE", dest_x: 26, dest_y: 31, next_action: "recolte"},
+    "61acd05a-a8e2-45b9-a757-5d4138c92c63": { action: "recolte", batiment: "", ressource: "PIERRE", dest_x: 30, dest_y: 26,},
+    "c71928dd-5c72-4c49-8c34-18f7301507b9": { action: "recolte", batiment: "", ressource: "FER", dest_x: 19, dest_y: 27, next_action: "construction"},
+    "1c5040c4-c3f1-408e-a0e6-eec4409e5991": { action: "recolte", batiment: "", ressource: "BOIS", dest_x: 30, dest_y: 32, next_action: "recolte"},
 };
 
 
@@ -105,10 +107,22 @@ app.listen(PORT, "10.110.5.153", () => {
                                 const direction = move(villageois_info.positionX, villageois_info.positionY, config.dest_x, config.dest_y);
                                 console.log(`Villageois ${id_villageois} is moving: ${direction}`);
                                 if (direction === "RECOLTE") {
-                                    tableauConfig[id_villageois].action = "recolte";
-                                    recolte_case(id_villageois, config.ressource).then(r => {
-                                        console.log("villageois", id_villageois, `(${villageois_info.positionX},${villageois_info.positionY}) recolte du `, config.ressource);
-                                    });
+                                    if (config.next_action === "recolte") {
+                                        tableauConfig[id_villageois].action = "recolte";
+                                        recolte_case(id_villageois, config.ressource).then(r => {
+                                            console.log("villageois", id_villageois, `(${villageois_info.positionX},${villageois_info.positionY}) recolte du `, config.ressource);
+                                        });
+                                    } else if (config.next_action === "construction") {
+                                        tableauConfig[id_villageois].action = "construction";
+                                        continue_contruire_bat(id_villageois, config.batiment).then(() => {
+                                            console.log("Statut:", get_construction_status(monde));
+                                        }).catch(console.error);
+                                    }else if (config.next_action === "set-construction") {
+                                        tableauConfig[id_villageois].action = "set-construction";
+                                        new_bat(id_villageois, config.batiment).then(() => {
+                                            console.log("Statut:", get_construction_status(monde));
+                                        }).catch(console.error);
+                                    }
                                 } else {
                                     action_move(id_villageois, direction);
                                 }

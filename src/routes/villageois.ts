@@ -4,16 +4,18 @@ import {getRessourceLaPlusProche, Position} from "../automatisations/maps_ressou
 
 const router = express.Router();
 
-router.post('/move', (req, res) => {
-    const { id, dest_x, dest_y } = req.body;
+function movetodest(id, dest_x, dest_y){
     if (tableauConfig[adjustname[id]]) {
         tableauConfig[adjustname[id]].action = "move";
         tableauConfig[adjustname[id]].dest_x = dest_x;
         tableauConfig[adjustname[id]].dest_y = dest_y;
-        res.send(`Moving villageois ${id} to (${dest_x}, ${dest_y})`);
-    } else {
-        res.status(404).send(`Villageois ${id} not found`);
     }
+}
+
+router.post('/move', (req, res) => {
+    const { id, dest_x, dest_y } = req.body;
+    movetodest(id, dest_x, dest_y);
+    res.send(`Moving villageois ${id} to (${dest_x}, ${dest_y})`);
 });
 
 
@@ -23,13 +25,8 @@ router.post('/movetoressource', async (req, res) => {
     const y = req.body.y;
     const ressource = req.body.ressourceName;
     const ressourceproche: Position = await getRessourceLaPlusProche(x, y, ressource);
+    movetodest(id_villageois,ressourceproche.x, ressourceproche.y);
     res.send(ressourceproche);
-    // const { id, dest_x, dest_y } = req.body;
-    // if (tableauConfig[id]) {
-    //     tableauConfig[id].action = "move";
-    //     tableauConfig[id].dest_x = dest_x;
-    //     tableauConfig[id].dest_y = dest_y;
-    //     res.send(`Moving villageois ${id} to (${dest_x}, ${dest_y})`);
 });
 
 export default router;

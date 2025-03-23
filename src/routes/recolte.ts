@@ -10,8 +10,7 @@ router.post('/recolte', (req, res) => {
     if (tableauConfig[adjustname[id]]) {
         tableauConfig[adjustname[id]].action = "recolte";
         tableauConfig[adjustname[id]].ressource = ressource;
-        recolte_case(id, ressource);
-        res.send(`Villageois ${id} is collecting ${ressource}`);
+        recolte_case(id, ressource).then(r => res.send(`Villageois ${id} is collecting ${ressource}`));
     } else {
         res.status(404).send(`Villageois ${id} not found`);
     }

@@ -36,6 +36,7 @@ paths:
           description: Villageois déplacé avec succès
         '404':
           description: Villageois non trouvé
+
   /villageois/movetoressource:
     post:
       summary: Déplacer un villageois vers la ressource la plus proche
@@ -65,6 +66,7 @@ paths:
       responses:
         '200':
           description: Villageois se déplace
+
   /construction/build:
     post:
       summary: Construire un bâtiment
@@ -89,7 +91,39 @@ paths:
         '404':
           description: Villageois non trouvé
 
-  /recolte:
+  /construction/move-and-build:
+    post:
+      summary: Déplacer un villageois et construire un bâtiment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: ID du villageois juste les 2 premier caractères
+                  example: "17"
+                batiment:
+                  type: string
+                  description: Type de bâtiment à construire
+                  example: "CARRIERE"
+                dest_x:
+                  type: number
+                  description: Coordonnée X de la destination
+                  example: 10
+                dest_y:
+                  type: number
+                  description: Coordonnée Y de la destination
+                  example: 15
+      responses:
+        '200':
+          description: Villageois se déplace et commence la construction
+        '404':
+          description: Villageois non trouvé
+
+  /recolte/recolte:
     post:
       summary: Récolter une ressource
       requestBody:
@@ -113,7 +147,7 @@ paths:
         '404':
           description: Villageois non trouvé
 
-  /pause:
+  /recolte/pause:
     post:
       summary: Mettre en pause un villageois
       requestBody:
