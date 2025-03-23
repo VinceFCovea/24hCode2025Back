@@ -51,14 +51,6 @@ paths:
                   type: string
                   description: ID du villageois juste les 2 premier caractères
                   example: "17e9cdb2-6bb1-484e-ad06-5f49c47e2034"
-                x:
-                  type: number
-                  description: x villageois
-                  example: 10
-                y:
-                  type: number
-                  description: y villageois
-                  example: 15
                 ressourceName:
                   type: string
                   description: ressource name
